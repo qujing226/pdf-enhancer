@@ -1,0 +1,20 @@
+[
+  {
+    "report_id": "rpt001",
+    "user_id": "u123",
+    "title": "Q1 2025 Investment Report",
+    "content": "这是完整报告内容，可以很长很长...",
+    "summary": "这是由 GPT 模拟产生的摘要内容。",
+    "created_at": "2025-04-01",
+    "pdf_url": "https://yourdomain.com/reports/rpt001.pdf"
+  },
+  {
+    "report_id": "rpt002",
+    "user_id": "u456",
+    "title": "Q4 2024 Investment Report",
+    "content": "这是 Q4 报告内容，描述资产配置与绩效。",
+    "summary": "",
+    "created_at": "2025-01-01",
+    "pdf_url": "https://yourdomain.com/reports/rpt002.pdf"
+  }
+]
