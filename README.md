@@ -1,54 +1,145 @@
-# API 线上笔试任务说明
+# AI增强报告系统
 
-## 📌 任务目标
+## 项目简介
 
-你需要建立一组 RESTful API，包含以下功能：
-1. 用户登录模拟（POST /login）
-2. 查询该用户的报告列表（GET /reports?user_id=xxx）
-3. 查询单份报告内容（GET /report/:report_id）
-4. 生成报告的 AI 摘要（POST /report/:id/summary）
+本项目是基于README.md中的笔试任务要求开发的一个完整的报告管理系统，实现了用户登录、报告查询和AI摘要生成功能。系统采用Gin+Vue+MySQL技术栈，通过Docker部署，并集成DeepSeek客户端用于AI摘要生成。
 
-## 🧱 JSON 模拟数据
-请参考本文件夹中的 `users.json` 和 `reports.json` 两个文件作为数据源。
+## 功能特点
 
-## 🛠️ 技术建议
-- 使用 Node.js + Express 或 Python Flask 开发均可
-- 可将数据存储在内存中，或使用 SQLite 管理
-- 若无法接入 GPT，模拟摘要结果即可
+- 用户登录认证（JWT Token）
+- 报告列表查询
+- 单份报告内容查询
+- AI自动生成报告摘要（DeepSeek API）
+- PDF文件安全存储与访问
+- 完整的API文档（Swagger）
 
-## ✅ 提交内容
-- GitHub 仓库或 Zip 压缩包（附上可执行说明）
-- API 结构清晰、功能逻辑完整
-- 加分项：Postman 测试文件 / Swagger 文档 / 线上部署网址
+## 技术栈
 
-祝你开发顺利 🚀
+- **前端**：Vue.js + Element UI
+- **后端**：Go + Gin框架
+- **数据库**：MySQL
+- **AI服务**：DeepSeek API
+- **文件服务器**：MinIO
+- **容器化**：Docker + Docker Compose
 
+## 安全特性
 
-## 您好
+- 用户密码使用Argon2id算法加密
+- JWT令牌采用RS256非对称加密
+- PDF文件存储采用服务端加密
+- 所有API通信使用TLS 1.3加密
+- 基于用户身份的访问控制
 
-感谢您申请我们的AI工具开发实习生（AI-Enhanced Full Stack Intern）职位！
-我们对您的背景非常感兴趣，为了更进一步了解您的实践能力，我们诚挚邀请您参与接下来的线上技术挑战任务。
-本次任务将模拟您未来在团队中可能参与的开发模块，包含API设计、数据结构管理与AI工具整合的基本逻辑。
-🔧 任务内容简介：
-• 实现登录、报告查询与摘要生成的简易API系统
-• 使用您熟悉的技术（Node.js/Flask/SQLite/JSON皆可）
-• 所需数据与任务说明已包含在附件ZIP文件中
+## 快速开始
 
-📌 请注意：本任务要求候选人自行确保项目能够在所选择的环境中正确安装与运行。我们也鼓励您（非必要但加分）将项目部署至临时性的生产环境，方便我们直接浏览与测试成果。
-📅 完成期限：建议在收到任务后3天内回复GitHub链接或完整压缩包
-📨 回复方式：
-请将完成的项目上传至GitHub或云盘（Google Drive/WeTransfer），
-并回复本邮件附上链接即可。我们将尽快安排后续技术面试。
+### 环境要求
 
-若您有任何问题，也欢迎随时来信咨询！
+- Docker 20.10+
+- Docker Compose 2.0+
 
-祝您开发顺利 🍀
+### 部署步骤
 
-敬祝
-顺心如意，
+1. 克隆代码库
 
-丰鑫团队
+```bash
+git clone https://github.com/qujing226/pdf-enhancer.git
+cd pdf-enhancer
+```
 
+2. 配置环境变量
 
-curl 下载pdf文件：
-curl -H "Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMTgzMTgwNjM0NTEzMjYzODIwOCIsImVtYWlsIjoiMTQ0QHFxLmNvbSIsImlzcyI6ImFpLWVuaGFuY2UtdGVzdCIsInN1YiI6IjE4MzE4MDYzNDUxMzI2MzgyMDgiLCJleHAiOjE3NDY5NTkxOTYsIm5iZiI6MTc0Njk1NTU5NiwiaWF0IjoxNzQ2OTU1NTk2fQ.U1pjFSb2azQaQBb3hyPleJuudi72vD1ZtmHGtYVjcWFVMwENd4Em6eUCoMG2zf7KMmdIZlTDsIKtkviXm_yhHYVJwoEFkWgks-v5s8AfaBiGPztpysoAaDJPLzi_ICwb3shBXOQNs9YhBKCwk3Dqpj9PhgL3NviQRqwPleTrt3LO31mvvrceWbhX2B2v-QUtcKyOkG9hz02yAjUaKvq_NzEL9RT6JfvU07ZBAyA4vBfdeffKDF6wvf3nbjSR0md1jSxdjSrNg_KojtZSXlO4QOui2ybBU2IVMTgNpjsv9YVeAuysCA1E4s1xm6iXXDrMiiSDPiFUm8EX0NQf42XxQA"      -o download.pdf      "http://localhost:8080/api/v1/report/513205d4-8705-4b61-83ed-8ac88c31bd58/pdf"
+```bash
+cp .env.example .env
+# 编辑.env文件，填入必要的密钥
+```
+
+3. 启动服务
+
+```bash
+docker-compose up -d
+```
+
+4. 访问服务
+
+- 前端界面：http://localhost
+- API文档：http://localhost:8080/swagger/index.html
+- MinIO控制台：http://localhost:9001
+
+## 项目结构
+
+```
+.
+├── backend/                 # 后端Go代码
+│   ├── api/                 # API处理器
+│   ├── config/              # 配置文件
+│   ├── middleware/          # 中间件
+│   ├── models/              # 数据模型
+│   ├── services/            # 业务逻辑
+│   ├── utils/               # 工具函数
+│   └── main.go              # 入口文件
+├── frontend/                # 前端Vue代码
+│   ├── public/              # 静态资源
+│   ├── src/                 # 源代码
+│   └── package.json         # 依赖配置
+├── docker/                  # Docker相关文件
+├── scripts/                 # 脚本文件
+├── .env.example            # 环境变量示例
+├── docker-compose.yml      # Docker Compose配置
+├── init.sql                # 数据库初始化SQL
+└── README.md               # 项目说明
+```
+
+## API文档
+
+详细的API文档可通过Swagger UI访问：http://localhost:8080/swagger/index.html
+
+主要API包括：
+
+- `POST /api/v1/login` - 用户登录
+- `GET /api/v1/reports` - 查询报告列表
+- `GET /api/v1/report/:report_id` - 查询单份报告
+- `POST /api/v1/report/:report_id/summary` - 生成报告摘要
+- `GET /api/v1/report/:report_id/pdf` - 获取报告PDF
+
+## 开发文档
+
+详细的开发文档请参考 [development.md](./development.md)，其中包含：
+
+- 系统架构设计
+- 数据库设计
+- API详细说明
+- 安全方案
+- DeepSeek客户端集成
+- 文件服务器配置
+- 部署方案
+- 开发指南
+
+## 测试
+
+项目提供了完整的测试套件：
+
+```bash
+# 运行后端单元测试
+cd backend
+go test ./...
+
+# 运行前端单元测试
+cd frontend
+npm run test:unit
+```
+
+## 贡献指南
+
+1. Fork 本仓库
+2. 创建您的特性分支 (`git checkout -b feature/amazing-feature`)
+3. 提交您的更改 (`git commit -m 'Add some amazing feature'`)
+4. 推送到分支 (`git push origin feature/amazing-feature`)
+5. 打开一个 Pull Request
+
+## 许可证
+
+本项目采用 MIT 许可证 - 详见 [LICENSE](LICENSE) 文件
+
+## 联系方式
+
+如有任何问题，请联系项目维护者。
